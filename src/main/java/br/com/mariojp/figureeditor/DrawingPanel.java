@@ -43,6 +43,16 @@ class DrawingPanel extends JPanel {
         shapes.clear();
         repaint();
     }
+    
+    void addShapeInternal(Shape s) {
+        shapes.add(s);
+        repaint();
+    }
+
+    void removeShapeInternal(Shape s) {
+        shapes.remove(s);
+        repaint();
+    }
 
     @Override protected void paintComponent(Graphics g) {
         super.paintComponent(g);
