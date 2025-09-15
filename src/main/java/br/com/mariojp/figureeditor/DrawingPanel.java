@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.ListIterator;
 
 public class DrawingPanel extends JPanel {
 	private final java.util.List<DrawableShape> shapes = new ArrayList<>();
@@ -80,7 +81,20 @@ public class DrawingPanel extends JPanel {
         shapes.remove(s);
         repaint();
     }
-
+    
+    public DrawableShape findShapeAt(Point p) {
+        ListIterator<DrawableShape> it = shapes.listIterator(shapes.size());
+        while (it.hasPrevious()) {
+            DrawableShape s = it.previous();
+            if (s.contains(p)) return s;
+        }
+        return null;
+    }
+    
+    public void clearSelection() {
+        for (DrawableShape s : shapes) s.setSelected(false);
+    }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -24,6 +24,7 @@ public class App {
             JButton undoBtn = new JButton("Desfazer");
             JButton redoBtn = new JButton("Refazer");
             JButton colorBtn = new JButton("Cor...");
+            JButton selectBtn = new JButton("Select/Move");
 
             ellipseBtn.addActionListener(e ->
 	            panel.setTool(new DrawTool(new EllipseFactory(), currentFill[0], currentStroke[0]))
@@ -31,6 +32,9 @@ public class App {
 	        rectBtn.addActionListener(e ->
 	            panel.setTool(new DrawTool(new RectangleFactory(), currentFill[0], currentStroke[0]))
 	        );
+	        selectBtn.addActionListener(e ->
+            	panel.setTool(new SelectMoveTool())
+    		);
             undoBtn.addActionListener(e -> panel.undo());
             redoBtn.addActionListener(e -> panel.redo());
            
@@ -43,6 +47,8 @@ public class App {
             
             toolbar.add(ellipseBtn);
             toolbar.add(rectBtn);
+            toolbar.addSeparator();
+            toolbar.add(selectBtn);
             toolbar.addSeparator();
             toolbar.add(colorBtn);
             toolbar.addSeparator();
