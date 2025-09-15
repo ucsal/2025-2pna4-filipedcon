@@ -24,3 +24,12 @@ public class App {
         });
     }
 }
+
+//Ideias de evolução
+//
+//Clique + Arraste: define o tamanho (pré-visualização tracejada).
+//Botão "Cor..."** escolhe a cor.
+//Seleção/movimentação de figuras
+//Camadas e alinhamento magnético
+//Exportar PNG/SVG
+//Undo/Redo (Memento + Command)
