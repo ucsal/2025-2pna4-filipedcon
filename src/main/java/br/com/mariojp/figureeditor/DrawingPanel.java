@@ -9,13 +9,12 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 
-class DrawingPanel extends JPanel {
-	private final java.util.List<Shape> shapes = new ArrayList<>();
-    private Shape preview;
+public class DrawingPanel extends JPanel {
+	private final java.util.List<DrawableShape> shapes = new ArrayList<>();
+    private DrawableShape preview;
 
     private Tool currentTool;
 
-    // Undo/Redo stacks
     private final Deque<Command> undoStack = new ArrayDeque<>();
     private final Deque<Command> redoStack = new ArrayDeque<>();
 
@@ -40,12 +39,11 @@ class DrawingPanel extends JPanel {
         addMouseMotionListener(mouseHandler);
     }
 
-    // Public API
     public void setTool(Tool tool) {
         this.currentTool = tool;
     }
 
-    public void setPreview(Shape s) {
+    public void setPreview(DrawableShape s) {
         this.preview = s;
     }
 
@@ -73,13 +71,12 @@ class DrawingPanel extends JPanel {
         }
     }
 
-    // Internal helpers
-    void addShapeInternal(Shape s) {
+    void addShapeInternal(DrawableShape s) {
         shapes.add(s);
         repaint();
     }
 
-    void removeShapeInternal(Shape s) {
+    void removeShapeInternal(DrawableShape s) {
         shapes.remove(s);
         repaint();
     }
@@ -90,20 +87,16 @@ class DrawingPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.setColor(new Color(30, 144, 255));
-        for (Shape s : shapes) {
-            g2.fill(s);
-            g2.setColor(Color.BLACK);
-            g2.draw(s);
-            g2.setColor(new Color(30, 144, 255));
+        for (DrawableShape s : shapes) {
+            s.draw(g2);
         }
 
-        // Desenha a pré-visualização tracejada
         if (preview != null) {
+            Stroke old = g2.getStroke();
             float dash[] = {5.0f};
             g2.setStroke(new BasicStroke(1.2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f));
-            g2.setColor(Color.GRAY);
-            g2.draw(preview);
+            preview.draw(g2);
+            g2.setStroke(old);
         }
 
         g2.dispose();

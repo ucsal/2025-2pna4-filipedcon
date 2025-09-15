@@ -1,13 +1,12 @@
 package br.com.mariojp.figureeditor;
-import java.awt.Shape;
 
 public class AddShapeCommand implements Command{
 	private final DrawingPanel panel;
-    private final Shape shape;
+    private final DrawableShape shape;
 
-    public AddShapeCommand(DrawingPanel panel, Shape shape) {
+    public AddShapeCommand(DrawingPanel panel, DrawableShape s) {
         this.panel = panel;
-        this.shape = shape;
+        this.shape = s;
     }
 
     @Override

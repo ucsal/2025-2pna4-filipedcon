@@ -3,5 +3,5 @@ import java.awt.*;
 
 
 public interface ShapeFactory {
-	Shape create(Point start, Point end);
+	DrawableShape create(Point start, Point end, Color fill, Color stroke);
 }
