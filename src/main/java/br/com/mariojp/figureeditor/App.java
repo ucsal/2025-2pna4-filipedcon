@@ -25,9 +25,9 @@ public class App {
             JButton undoBtn = new JButton("Desfazer");
             JButton redoBtn = new JButton("Refazer");
             JButton colorBtn = new JButton("Cor...");
-            JButton selectBtn = new JButton("Select/Move");
-            JButton exportPngBtn = new JButton("Export PNG");
-            JButton exportSvgBtn = new JButton("Export SVG");
+            JButton selectBtn = new JButton("Mover");
+            JButton exportPngBtn = new JButton("Exportar PNG");
+            JButton exportSvgBtn = new JButton("Exportar SVG");
 
             ellipseBtn.addActionListener(e ->
 	            panel.setTool(new DrawTool(new EllipseFactory(), currentFill[0], currentStroke[0]))
@@ -113,11 +113,4 @@ public class App {
     }
 }
 
-//Ideias de evolução
-//
-//Clique + Arraste: define o tamanho (pré-visualização tracejada).
-//Botão "Cor..."** escolhe a cor.
-//Seleção/movimentação de figuras
-//Camadas e alinhamento magnético
-//Exportar PNG/SVG
-//Undo/Redo (Memento + Command)
+
