@@ -6,18 +6,22 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.ListIterator;
 
 public class DrawingPanel extends JPanel {
-	private final java.util.List<DrawableShape> shapes = new ArrayList<>();
+	private final List<DrawableShape> shapes = new ArrayList<>();
     private DrawableShape preview;
-
+    
     private Tool currentTool;
 
     private final Deque<Command> undoStack = new ArrayDeque<>();
     private final Deque<Command> redoStack = new ArrayDeque<>();
+
+    private Color currentFill = new Color(30, 144, 255);
+    private Color currentStroke = Color.BLACK;
 
     DrawingPanel() {
         setBackground(Color.WHITE);
@@ -47,6 +51,8 @@ public class DrawingPanel extends JPanel {
     public void setPreview(DrawableShape s) {
         this.preview = s;
     }
+    
+    public List<DrawableShape> getShapes() { return shapes; }
 
     public void executeCommand(Command cmd) {
         cmd.execute();
@@ -81,6 +87,11 @@ public class DrawingPanel extends JPanel {
         shapes.remove(s);
         repaint();
     }
+    
+    public Color getCurrentFill() { return currentFill; }
+    public Color getCurrentStroke() { return currentStroke; }
+    public void setCurrentFill(Color c) { this.currentFill = c; }
+    public void setCurrentStroke(Color c) { this.currentStroke = c; }
     
     public DrawableShape findShapeAt(Point p) {
         ListIterator<DrawableShape> it = shapes.listIterator(shapes.size());

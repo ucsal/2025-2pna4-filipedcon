@@ -2,6 +2,7 @@ package br.com.mariojp.figureeditor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class App {
     public static void main(String[] args) {
@@ -10,7 +11,7 @@ public class App {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
 
-            JFrame frame = new JFrame("Figure Editor — Cor + Factory + Tool + Undo/Redo");
+            JFrame frame = new JFrame("Figure Editor");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             DrawingPanel panel = new DrawingPanel();
@@ -25,6 +26,8 @@ public class App {
             JButton redoBtn = new JButton("Refazer");
             JButton colorBtn = new JButton("Cor...");
             JButton selectBtn = new JButton("Select/Move");
+            JButton exportPngBtn = new JButton("Export PNG");
+            JButton exportSvgBtn = new JButton("Export SVG");
 
             ellipseBtn.addActionListener(e ->
 	            panel.setTool(new DrawTool(new EllipseFactory(), currentFill[0], currentStroke[0]))
@@ -45,6 +48,46 @@ public class App {
                 }
             });
             
+            exportPngBtn.addActionListener(e -> {
+                JFileChooser fc = new JFileChooser();
+                if (fc.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+
+                    if (!file.getName().toLowerCase().endsWith(".png")) {
+                        file = new File(file.getAbsolutePath() + ".png");
+                    }
+
+                    try {
+                        new PngExporter().export(panel.getShapes(), panel.getSize(), file);
+                        JOptionPane.showMessageDialog(frame, 
+                            "Exportado como PNG: " + file.getName());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(frame, "Erro: " + ex.getMessage());
+                    }
+                }
+            });
+
+            exportSvgBtn.addActionListener(e -> {
+                JFileChooser fc = new JFileChooser();
+                if (fc.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+
+                    if (!file.getName().toLowerCase().endsWith(".svg")) {
+                        file = new File(file.getAbsolutePath() + ".svg");
+                    }
+
+                    try {
+                        new SvgExporter().export(panel.getShapes(), panel.getSize(), file);
+                        JOptionPane.showMessageDialog(frame, 
+                            "Exportado como SVG: " + file.getName());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(frame, "Erro: " + ex.getMessage());
+                    }
+                }
+            });
+            
             toolbar.add(ellipseBtn);
             toolbar.add(rectBtn);
             toolbar.addSeparator();
@@ -54,6 +97,9 @@ public class App {
             toolbar.addSeparator();
             toolbar.add(undoBtn);
             toolbar.add(redoBtn);
+            toolbar.addSeparator();
+            toolbar.add(exportPngBtn);
+            toolbar.add(exportSvgBtn);
 
             frame.setLayout(new BorderLayout());
             frame.add(toolbar, BorderLayout.NORTH);

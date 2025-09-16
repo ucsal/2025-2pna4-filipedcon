@@ -44,6 +44,14 @@ public class DrawableShape {
     public Shape getShape() {
         return shape;
     }
+    
+    public Color getFill() {
+        return fill;
+    }
+
+    public Color getStroke() {
+        return stroke;
+    }
 
     public void setSelected(boolean sel) {
         this.selected = sel;
